@@ -1,6 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Plant Index
 
-## Getting Started
+## Perenual API
+
+### API Key access
+
+Follow [this](https://perenual.com/user/developer) link to access the Perenual API key
+
+### API Documentation
+
+Follow this [link](https://perenual.com/docs/api) to see the Perenual API documentation.
+
+### Used Endpoints
+
+The following are the API endpoints used in this project:
+
+| Endpoint             | Purpose                                                                          |
+|----------------------|----------------------------------------------------------------------------------|
+| /api/species-list    | Get a list of plant species. Use optional parameters for searching and filtering |
+| /api/species/details | Get full details for a plant species using it's unique ID                        |
+
+### Parameter list
+
+The following are optional query parameters that can be included in the API endpoint `/api/species-list`.
+
+| Name      | Description                                                    | Type    | Options                                                  |
+|-----------|----------------------------------------------------------------|---------|----------------------------------------------------------|
+| Page      | The page number for the results.                               | Integer |                                                          |
+| Hardiness | Hardiness Zone of plant species                                | Integer | 1 - 13                                                   |
+| q         | A string query used to narrow down results. Uses species name. | String  |                                                          |
+| Order     | The order for results, by species common name.                 | String  | 'Asc', 'Desc'                                            |
+| Cycle     | The plant cycle of the species.                                | String  | 'perennial', 'annual', 'biennial', 'biannual'            |
+| Watering  | The watering amount of the species.                            | String  | 'frequent', 'average', 'minimum', 'none'                 |
+| Sunlight  | How much sunlight the species should get.                      | String  | 'full_shade', 'part_shade', 'sun-part_shade', 'full_sun' |
+| Indoor    | Specifies if the species is to be kept indoors                 | Bool    |                                                          |
+| Edible    | Specifies if resulting species are edible or not.              | Bool    |                                                          |
+| Poisonous | Specifies if the resulting species are poisonous or not.       | Bool    |                                                          |
+
+## NextJS
+
+### Getting Started
 
 First, run the development server:
 
@@ -20,7 +58,7 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+### Learn More
 
 To learn more about Next.js, take a look at the following resources:
 
@@ -28,9 +66,3 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
