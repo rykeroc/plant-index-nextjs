@@ -42,10 +42,22 @@ body {
 }
 
 h1 {
-  @apply text-xl
+  @apply text-4xl
 }
 
 h2 {
+  @apply text-3xl
+}
+
+h3 {
+  @apply text-2xl
+}
+
+h4 {
+  @apply text-xl
+}
+
+h5 {
   @apply text-lg
 }
 
@@ -55,4 +67,8 @@ p {
 
 small {
   @apply text-sm
+}
+
+*:focus {
+  outline: none;
 }
