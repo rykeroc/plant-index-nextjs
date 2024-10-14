@@ -2,8 +2,7 @@
 
 import MaterialIcon from "@/app/ui/components/MaterialIcon";
 import React, {useState} from "react";
-
-type IconPlacementType = "leading" | "trailing"
+import {IconPlacementType} from "@/app/types/IconPlacementType";
 
 type TextInputProps = {
 	placeholder: string,
@@ -11,7 +10,7 @@ type TextInputProps = {
 	iconPlacement?: IconPlacementType
 }
 
-const TextInput = ({placeholder, iconName, iconPlacement}: Readonly<TextInputProps>) => {
+const TextInput = ({placeholder, iconName, iconPlacement = "leading"}: Readonly<TextInputProps>) => {
 	const [isContainerHover, setIsContainerHovered] = useState(false)
 	const handleOnContainerHover = () => setIsContainerHovered(true)
 	const handleOnContainerLeave = () => setIsContainerHovered(false)
