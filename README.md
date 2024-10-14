@@ -1,5 +1,7 @@
 # Plant Index
 
+Browse and search for houseplants.
+
 ## Perenual API
 
 ### API Key access

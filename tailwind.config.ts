@@ -10,7 +10,15 @@ const config: Config = {
     extend: {
       colors: {
         background: "var(--background)",
-        foreground: "var(--foreground)",
+        container: "var(--container)",
+
+        primary: "var(--primary)",
+        secondary: "var(--secondary)",
+
+        textPrimary: "var(--text-primary)",
+        textSecondary: "var(--text-secondary)",
+
+        error: "var(--error)",
       },
     },
   },
