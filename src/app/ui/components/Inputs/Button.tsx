@@ -8,10 +8,11 @@ type ButtonProps = {
 	text?: string,
 	iconName?: string,
 	iconPlacement?: IconPlacementType,
-	onClick: () => void
+	onClick: () => void,
+	className?: string
 }
 
-const Button = ({text = "", iconName, iconPlacement = "leading", onClick}: Readonly<ButtonProps>) => {
+const Button = ({text = "", iconName, iconPlacement = "leading", onClick, className}: Readonly<ButtonProps>) => {
 	const [isHovered, setIsHovered] = useState(false)
 	const handleOnHover = () => setIsHovered(true)
 	const handleOnLeave = () => setIsHovered(false)
@@ -24,8 +25,8 @@ const Button = ({text = "", iconName, iconPlacement = "leading", onClick}: Reado
 
 	return (
 		<button className={"p-3 rounded-lg bg-container " +
-			"flex flex-row space-x-3  " +
-			`${colorClass} `}
+			`flex flex-row space-x-3 ` +
+			`${colorClass} ${className} `}
 				onClick={onClick}
 				onMouseEnter={handleOnHover}
 				onMouseLeave={handleOnLeave}>
