@@ -9,8 +9,9 @@ type PlantCardProps = {
 
 const PlantCard = ({ imgSrc, imgAlt, commonName, scientificName }: Readonly<PlantCardProps>) => {
 	return (
-		<div className={"hover:drop-shadow-lg"}>
-			<div className={"aspect-square mb-2"}>
+		<div>
+			<div className={"aspect-square mb-2 cursor-pointer rounded-xl " +
+				"hover:shadow-lg"}>
 				{/* eslint-disable-next-line @next/next/no-img-element */}
 				<img
 					className={"w-full h-full rounded-xl"}
