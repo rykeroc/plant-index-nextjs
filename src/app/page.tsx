@@ -1,9 +1,9 @@
 "use client"
 
-import TextInput from "@/app/ui/components/Inputs/TextInput";
-import Button from "@/app/ui/components/Inputs/Button";
-import PlantCard from "@/app/ui/components/PlantCard";
-import Dropdown from "@/app/ui/components/Inputs/Dropdown";
+import TextInput from "@/app/_components/Inputs/TextInput";
+import Button from "@/app/_components/Inputs/Button";
+import PlantCard from "@/app/_components/PlantCard";
+import Dropdown from "@/app/_components/Inputs/Dropdown";
 import {useState} from "react";
 
 export default function Home() {

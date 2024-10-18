@@ -1,8 +1,8 @@
 "use client"
 
-import {IconPlacementType} from "@/app/types/IconPlacementType";
+import {IconPlacementType} from "@/app/_types/IconPlacementType";
 import React, {useState} from "react";
-import MaterialIcon from "@/app/ui/components/MaterialIcon";
+import MaterialIcon from "@/app/_components/MaterialIcon";
 
 type ButtonProps = {
 	text?: string,

@@ -1,7 +1,7 @@
 "use client"
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import MaterialIcon from "@/app/ui/components/MaterialIcon";
+import MaterialIcon from "@/app/_components/MaterialIcon";
 import {useState} from "react";
 
 type DropdownOptions = {

@@ -1,8 +1,8 @@
 "use client"
 
-import MaterialIcon from "@/app/ui/components/MaterialIcon";
+import MaterialIcon from "@/app/_components/MaterialIcon";
 import React, {useState} from "react";
-import {IconPlacementType} from "@/app/types/IconPlacementType";
+import {IconPlacementType} from "@/app/_types/IconPlacementType";
 
 type TextInputProps = {
 	placeholder: string,
