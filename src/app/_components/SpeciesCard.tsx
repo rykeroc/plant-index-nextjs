@@ -1,13 +1,13 @@
 "use client"
 
-type PlantCardProps = {
+type SpeciesCardProps = {
 	imgSrc: string,
 	imgAlt: string,
 	commonName: string,
 	scientificName: string
 }
 
-const PlantCard = ({ imgSrc, imgAlt, commonName, scientificName }: Readonly<PlantCardProps>) => {
+const SpeciesCard = ({ imgSrc, imgAlt, commonName, scientificName }: Readonly<SpeciesCardProps>) => {
 	return (
 		<div>
 			<div className={"aspect-square mb-2 cursor-pointer rounded-xl " +
@@ -28,4 +28,4 @@ const PlantCard = ({ imgSrc, imgAlt, commonName, scientificName }: Readonly<Plan
 	)
 }
 
-export default PlantCard
+export default SpeciesCard
