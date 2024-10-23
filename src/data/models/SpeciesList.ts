@@ -1,4 +1,4 @@
-type SpeciesListData = {
+export type SpeciesListItem = {
 	id: number;
 	common_name: string;
 	scientific_name: string[];
@@ -15,6 +15,6 @@ type SpeciesListData = {
 }
 
 export type SpeciesList = {
-	data: SpeciesListData[],
+	data: SpeciesListItem[],
 	current_page: number
 }
