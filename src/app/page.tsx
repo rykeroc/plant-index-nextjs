@@ -30,7 +30,6 @@ export default function Home() {
 
 	const wateringOptions = {
 		Select: "",
-		None: "None",
 		Minimum: "Minimum",
 		Average: "Average",
 		Frequent: "Frequent",
