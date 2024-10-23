@@ -1,11 +1,6 @@
 {
 	"title": "plant-index",
 	"version": "0.1.0",
-	"tasks": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start"
-	},
 	"lint": {
 		"include": ["src/"],
 		"exclude": ["tests/"],
