@@ -4,6 +4,7 @@ import "@/app/_css/globals.css";
 import "@/app/_css/globalicons.css";
 import React from "react";
 import Header from "@/app/_components/Header";
+import AppProviders from "@/app/_components/AppProviders";
 
 const montserrat = Montserrat({
 	subsets: ['latin'],
@@ -22,8 +23,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
 			<Header className={"mb-3"}/>
 
-			{children}
-
+			<AppProviders>
+				{children}
+			</AppProviders>
 		</body>
 		</html>
 	);
