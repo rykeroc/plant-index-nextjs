@@ -5,12 +5,13 @@ import axios, {AxiosError} from "axios";
 import logger from "@/logging";
 import {SpeciesList, SpeciesListItem} from "@/data/models/SpeciesList";
 
-type SpeciesListParams = {
+export type SpeciesListParams = {
 	page?: number;
 	q?: string;
 	cycle?: string;
 	watering?: string;
 	sunlight?: string;
+	order?: string;
 	key?: string;
 }
 
@@ -25,12 +26,12 @@ const getSpeciesList = async (params: Readonly<SpeciesListParams> = {}): Promise
 		}, `${perenualApiUrl}/species-list?`)
 
 	if (!params.key)
-		requestUrl += `key=${perenualApiKey}`
+		requestUrl += `&key=${perenualApiKey}`
 
-	logger.debug(`Request URL: ${requestUrl}`)
+	logger.verbose(`Request URL: ${requestUrl}`)
 
 	try {
-		logger.info("Sending request species list request...")
+		logger.info("Sending species list request...")
 		const response = await axios.get(
 			requestUrl,
 			{timeout: 10 * 1000}
