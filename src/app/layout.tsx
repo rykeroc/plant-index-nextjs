@@ -21,7 +21,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 		<html lang="en">
 		<body className={`${montserrat.className} antialiased p-6`}>
 
-			<Header className={"mb-3"}/>
+			<Header className={"mb-4"}/>
 
 			<AppProviders>
 				{children}

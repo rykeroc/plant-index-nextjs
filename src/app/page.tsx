@@ -1,19 +1,32 @@
 import {dehydrate, HydrationBoundary, QueryClient} from "@tanstack/react-query";
-import getSpeciesList from "@/data/actions/getSpeciesList";
+import getSpeciesList, {SpeciesListParams} from "@/data/actions/getSpeciesList";
 import SpeciesCardList from "@/app/_components/SpeciesCardList";
+import SpeciesSortOptions from "@/app/_constants/SpeciesSortOptions";
+import SpeciesCycleOptions from "@/app/_constants/SpeciesCycleOptions";
+import SpeciesWateringOptions from "@/app/_constants/SpeciesWateringOptions";
+import SpeciesSunlightOptions from "@/app/_constants/SpeciesSunlightOptions";
 
 export default async function Home() {
+	const initialParams: SpeciesListParams = {
+		order: SpeciesSortOptions.Select,
+		cycle: SpeciesCycleOptions.Select,
+		watering: SpeciesWateringOptions.Select,
+		sunlight: SpeciesSunlightOptions.Select,
+		page: 1
+	}
 	const queryClient = new QueryClient()
 	await queryClient.prefetchQuery({
-		queryKey: ["species-list"],
-		queryFn: () => getSpeciesList(),
-
+		queryKey: [
+			"species-list", initialParams
+		],
+		queryFn: () => getSpeciesList(initialParams),
+		staleTime: 60 * 1000,
 	})
 
 	return (
 		<div className={"flex flex-row gap-0 lg:gap-6"}>
 			<HydrationBoundary state={dehydrate(queryClient)}>
-				<SpeciesCardList/>
+				<SpeciesCardList initialParams={initialParams}/>
 			</HydrationBoundary>
 		</div>
 	);
