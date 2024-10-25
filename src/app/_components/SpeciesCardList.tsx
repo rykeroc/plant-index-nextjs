@@ -1,6 +1,6 @@
 "use client"
 
-import {useQuery, useQueryClient} from "@tanstack/react-query";
+import {useInfiniteQuery, useQueryClient} from "@tanstack/react-query";
 import getSpeciesList, {SpeciesListParams} from "@/data/actions/getSpeciesList";
 import SpeciesCard from "@/app/_components/SpeciesCard";
 import Dropdown from "@/app/_components/Inputs/Dropdown";
@@ -8,19 +8,21 @@ import SpeciesOrderOptions from "@/app/_constants/SpeciesSortOptions";
 import SpeciesCycleOptions from "@/app/_constants/SpeciesCycleOptions";
 import SpeciesWateringOptions from "@/app/_constants/SpeciesWateringOptions";
 import SpeciesSunlightOptions from "@/app/_constants/SpeciesSunlightOptions";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import TextInput from "@/app/_components/Inputs/TextInput";
 import Button from "@/app/_components/Inputs/Button";
 import RefineDialog from "@/app/_components/RefineDialog";
 import SpeciesCardSkeleton from "@/app/_components/SpeciesCardSkeleton";
 import MaterialIcon from "@/app/_components/MaterialIcon";
+import {useInView} from "framer-motion";
 
 const SpeciesCardList = ({initialParams}: Readonly<{ initialParams: SpeciesListParams }>) => {
+	const ref = useRef(null)
+	const isInView = useInView(ref)
 	const [order, setOrder] = useState(initialParams.order ?? SpeciesOrderOptions.Select)
 	const [cycle, setCycle] = useState(initialParams.cycle ?? SpeciesCycleOptions.Select)
 	const [watering, setWatering] = useState(initialParams.watering ?? SpeciesWateringOptions.Select)
 	const [sunlight, setSunlight] = useState(initialParams.sunlight ?? SpeciesSunlightOptions.Select)
-	const [page, setPage] = useState(initialParams.page ?? 1)
 
 	const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -30,16 +32,28 @@ const SpeciesCardList = ({initialParams}: Readonly<{ initialParams: SpeciesListP
 	}
 
 	const queryKey = [
-		"species-list", { order, cycle, watering, sunlight, page }
+		"species-list", { order, cycle, watering, sunlight }
 	]
 
-	// TODO: Implement infinite query
-	const { isPending, isLoading, isFetched, isError, data, error, } = useQuery({
+	const { isPending, isLoading, isFetched, isFetchingNextPage, isError, data, error, fetchNextPage, hasNextPage } = useInfiniteQuery({
 		queryKey: queryKey,
-		queryFn: () => getSpeciesList({ order, cycle, watering, sunlight, page }),
-		staleTime: 60000 * 1000,
+		queryFn: async ({pageParam}) =>
+			await getSpeciesList({ order, cycle, watering, sunlight, page: pageParam }),
+		initialPageParam: 1,
+		getNextPageParam: (lastPage) => {
+			const currentPageNum = lastPage.data?.current_page ?? 1
+			const lastPageNum = lastPage.data?.last_page
+			return currentPageNum !== lastPageNum ? currentPageNum + 1 : null
+		},
+		staleTime: 60000 * 1000
 	})
 	const queryClient = useQueryClient()
+	useEffect(() => {
+		console.log("Fetching next page")
+		if (isInView && hasNextPage) {
+			fetchNextPage().then(() => console.log("Next page fetched"));
+		}
+	}, [isInView, hasNextPage, fetchNextPage]);
 	const handleRefresh = async () => {
 		await queryClient.invalidateQueries({queryKey: queryKey})
 	}
@@ -74,20 +88,25 @@ const SpeciesCardList = ({initialParams}: Readonly<{ initialParams: SpeciesListP
 				}>
 					{
 						isFetched &&
-						data?.data?.map((e) =>
-							<SpeciesCard
-								key={e.id}
-								imgSrc={e.default_image?.medium_url ?? ''}
-								imgAlt={`${e.common_name} thumbnail`}
-								commonName={e.common_name}
-								scientificName={e.scientific_name[0]}
-							/>)
+						data?.pages.map((p) => (
+							p.data?.data.map(e => (
+								<SpeciesCard
+									key={e.id}
+									imgSrc={e.default_image?.medium_url ?? ''}
+									imgAlt={`${e.common_name} thumbnail`}
+									commonName={e.common_name}
+									scientificName={e.scientific_name[0]}
+								/>
+							)))
+						)
 					}
 
 					{
-						(isPending || isLoading || data?.data === undefined) &&
+						(isPending || isLoading || isFetchingNextPage || data?.pages === undefined) &&
 						[...Array(6)].map((_, index) => <SpeciesCardSkeleton key={index}/>)
 					}
+
+					<div ref={ref}/>
 				</div>
 
 				{

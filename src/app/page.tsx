@@ -15,11 +15,12 @@ export default async function Home() {
 		page: 1
 	}
 	const queryClient = new QueryClient()
-	await queryClient.prefetchQuery({
+	await queryClient.prefetchInfiniteQuery({
 		queryKey: [
 			"species-list", initialParams
 		],
-		queryFn: () => getSpeciesList(initialParams),
+		queryFn: async () => await getSpeciesList(initialParams),
+		initialPageParam: initialParams.page,
 		staleTime: 60 * 1000,
 	})
 

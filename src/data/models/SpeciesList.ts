@@ -1,4 +1,4 @@
-export type SpeciesListItem = {
+interface SpeciesListItem {
 	id: number;
 	common_name: string;
 	scientific_name: string[];
@@ -14,7 +14,8 @@ export type SpeciesListItem = {
 	} | null;
 }
 
-export type SpeciesList = {
-	data: SpeciesListItem[],
-	current_page: number
+export interface SpeciesList {
+	data: SpeciesListItem[];
+	current_page: number;
+	last_page: number;
 }
