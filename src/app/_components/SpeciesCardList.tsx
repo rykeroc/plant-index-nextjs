@@ -1,6 +1,6 @@
 "use client"
 
-import {useQuery} from "@tanstack/react-query";
+import {useQuery, useQueryClient} from "@tanstack/react-query";
 import getSpeciesList, {SpeciesListParams} from "@/data/actions/getSpeciesList";
 import SpeciesCard from "@/app/_components/SpeciesCard";
 import Dropdown from "@/app/_components/Inputs/Dropdown";
@@ -12,6 +12,8 @@ import {useState} from "react";
 import TextInput from "@/app/_components/Inputs/TextInput";
 import Button from "@/app/_components/Inputs/Button";
 import RefineDialog from "@/app/_components/RefineDialog";
+import SpeciesCardSkeleton from "@/app/_components/SpeciesCardSkeleton";
+import MaterialIcon from "@/app/_components/MaterialIcon";
 
 const SpeciesCardList = ({initialParams}: Readonly<{ initialParams: SpeciesListParams }>) => {
 	const [order, setOrder] = useState(initialParams.order ?? SpeciesOrderOptions.Select)
@@ -27,13 +29,20 @@ const SpeciesCardList = ({initialParams}: Readonly<{ initialParams: SpeciesListP
 		setIsDialogOpen((prev: boolean) => !prev)
 	}
 
+	const queryKey = [
+		"species-list", { order, cycle, watering, sunlight, page }
+	]
+
+	// TODO: Implement infinite query
 	const { isPending, isLoading, isFetched, isError, data, error, } = useQuery({
-		queryKey: [
-			"species-list", { order, cycle, watering, sunlight, page }
-		],
+		queryKey: queryKey,
 		queryFn: () => getSpeciesList({ order, cycle, watering, sunlight, page }),
 		staleTime: 60000 * 1000,
 	})
+	const queryClient = useQueryClient()
+	const handleRefresh = async () => {
+		await queryClient.invalidateQueries({queryKey: queryKey})
+	}
 
 	return (
 		<>
@@ -50,7 +59,9 @@ const SpeciesCardList = ({initialParams}: Readonly<{ initialParams: SpeciesListP
 					{/* Search bar */}
 					<TextInput placeholder={"Search"} iconName={"search"} iconPlacement={"leading"}/>
 					{/* Filter button */}
-					<Button className={"block lg:hidden"} iconName={"tune"} onClick={handleOnClick}/>
+					<Button className={"block lg:hidden"} onClick={handleOnClick}>
+						<MaterialIcon name={"tune"}/>
+					</Button>
 				</div>
 
 				{/* Species list items*/}
@@ -73,17 +84,22 @@ const SpeciesCardList = ({initialParams}: Readonly<{ initialParams: SpeciesListP
 							/>)
 					}
 
-
 					{
-						(isPending || isLoading) &&
-                        <h2>Loading...</h2>
-					}
-
-					{
-						isError &&
-                        <h2>{error.message}</h2>
+						(isPending || isLoading || data?.data === undefined) &&
+						[...Array(6)].map((_, index) => <SpeciesCardSkeleton key={index}/>)
 					}
 				</div>
+
+				{
+					isError &&
+					<div className={'w-full flex flex-col items-center space-y-2'}>
+						<h3 className={"w-1/2 text-center"}>{error.message}</h3>
+						<Button onClick={handleRefresh}>
+							<MaterialIcon name={"refresh"} className={"transform"}/>
+							<p>Reload</p>
+						</Button>
+					</div>
+				}
 			</section>
 
 			<RefineDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen}

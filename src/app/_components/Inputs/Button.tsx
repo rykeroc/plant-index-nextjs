@@ -1,47 +1,30 @@
 "use client"
 
-import {IconPlacementType} from "@/app/_types/IconPlacementType";
 import React, {useState} from "react";
-import MaterialIcon from "@/app/_components/MaterialIcon";
 
 type ButtonProps = {
-	text?: string,
-	iconName?: string,
-	iconPlacement?: IconPlacementType,
+	children?: React.ReactNode,
 	onClick: () => void,
 	className?: string
 }
 
-const Button = ({text = "", iconName, iconPlacement = "leading", onClick, className}: Readonly<ButtonProps>) => {
+const Button = ({children, onClick, className}: Readonly<ButtonProps>) => {
 	const [isHovered, setIsHovered] = useState(false)
 	const handleOnHover = () => setIsHovered(true)
 	const handleOnLeave = () => setIsHovered(false)
 
 	const colorClass = isHovered ? "text-primary" : "text-textSecondary"
 
-	const icon: React.ReactNode | null = iconName != undefined ? (
-		<MaterialIcon name={iconName}/>
-	) : null
-
 	return (
 		<button className={"p-3 rounded-lg bg-container " +
-			`flex flex-row space-x-3 ` +
+			`flex flex-row gap-2 ` +
 			`${colorClass} ${className} `}
 				onClick={onClick}
 				onMouseEnter={handleOnHover}
 				onMouseLeave={handleOnLeave}>
 			{/* Leading icon */}
 			{
-				icon && iconPlacement == "leading" && icon
-			}
-
-			{
-				text != undefined ? text : ""
-			}
-
-			{/* Trailing icon */}
-			{
-				icon && iconPlacement == "trailing" && icon
+				children
 			}
 		</button>
 	)
