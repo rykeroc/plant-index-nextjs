@@ -11,6 +11,9 @@ const getAxiosErrorMessage = (error: AxiosError): string => {
 	let message: string = 'An error occurred. Please try again in a few minutes'
 
 	switch (error.status) {
+		case 429:
+			message = 'Exceeded the maximum daily requests. Please try again tomorrow.'
+			break
 		case 404:
 		case 500:
 			message = 'We’re experiencing technical difficulties. Please try again in a few minutes.'
