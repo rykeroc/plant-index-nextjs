@@ -39,7 +39,8 @@ const Dropdown = ({ label, selected, options, onSelect }: Readonly<DropdownProps
 						<MenuItem key={optionKey} as={'p'}
 						  	onClick={() => handleClick(optionKey)} className={
 								`${optionKey == selected ? 'text-primary' : ''} ` +
-								`${optionKey == "Select" ? 'text-textSecondary' : ''} `
+								`${optionKey == "Select" ? 'text-textSecondary' : ''} ` +
+								"hover:cursor-pointer"
 						}>
 								{optionKey.split("_").join(" ")}
 						</MenuItem>
