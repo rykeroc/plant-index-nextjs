@@ -1,20 +1,20 @@
 import getSpeciesList from "../../src/data/actions/getSpeciesList"
-import {SpeciesListItem} from "@/data/models/SpeciesList";
+import {SpeciesListItem} from "@/data/models/SpeciesListResponse";
 
 describe("Get Species List", () => {
 	test("Success - No Params", async () => {
 		const res = await getSpeciesList()
 		expect(res).toBeTruthy()
-		expect(res.data).toBeTruthy()
-		expect(res.data?.length).toBeGreaterThan(0)
+		expect(res.success?.data).toBeTruthy()
+		expect(res.success?.data?.length).toBeGreaterThan(0)
 		expect(res.error).toBeFalsy()
 	})
 
 	test("Success - Page 2", async () => {
 		const res = await getSpeciesList({page: 2})
 		expect(res).toBeTruthy()
-		expect(res.data).toBeTruthy()
-		expect(res.data?.length).toBeGreaterThan(0)
+		expect(res.success?.data).toBeTruthy()
+		expect(res.success?.data?.length).toBeGreaterThan(0)
 		expect(res.error).toBeFalsy()
 	})
 
@@ -23,8 +23,8 @@ describe("Get Species List", () => {
 			q: "Pothos"
 		})
 		expect(res).toBeTruthy()
-		expect(res.data).toBeTruthy()
-		expect(res.data?.length).toBeGreaterThan(0)
+		expect(res.success?.data).toBeTruthy()
+		expect(res.success?.data?.length).toBeGreaterThan(0)
 		expect(res.error).toBeFalsy()
 	})
 
@@ -77,8 +77,8 @@ describe("Get Species List", () => {
 			q: "Some plant name"
 		})
 		expect(res).toBeTruthy()
-		expect(res.data).toBeTruthy()
-		expect(res.data?.length).toBe(0)
+		expect(res.success?.data).toBeTruthy()
+		expect(res.success?.data?.length).toBe(0)
 		expect(res.error).toBeFalsy()
 	})
 
@@ -87,7 +87,7 @@ describe("Get Species List", () => {
 			key: 'somerandomkey'
 		})
 		expect(res).toBeTruthy()
-		expect(res.data).toBeFalsy()
+		expect(res.success?.data).toBeFalsy()
 		expect(res.error).toBeTruthy()
 		expect(res.error?.message).toBeTruthy()
 	})

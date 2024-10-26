@@ -1,10 +1,6 @@
 import {Dialog, DialogBackdrop, DialogPanel, DialogTitle} from "@headlessui/react";
-import Dropdown from "@/app/_components/Inputs/Dropdown";
-import SpeciesSortOptions from "@/app/_constants/SpeciesSortOptions";
-import SpeciesCycleOptions from "@/app/_constants/SpeciesCycleOptions";
-import SpeciesWateringOptions from "@/app/_constants/SpeciesWateringOptions";
-import SpeciesSunlightOptions from "@/app/_constants/SpeciesSunlightOptions";
 import {useState} from "react";
+import FilterDropdowns from "@/app/_components/FilterDropdowns";
 
 type RefineDialogParams = {
 	isOpen: boolean,
@@ -58,10 +54,11 @@ const RefineDialog = ({
 							</DialogTitle>
 
 							<div className={"space-y-1"}>
-								<Dropdown label={"Order"} selected={dialogOrder} options={SpeciesSortOptions} onSelect={setDialogOrder}/>
-								<Dropdown label={"Cycle"} selected={dialogCycle} options={SpeciesCycleOptions} onSelect={setDialogCycle}/>
-								<Dropdown label={"Watering"} selected={dialogWatering} options={SpeciesWateringOptions} onSelect={setDialogWatering}/>
-								<Dropdown label={"Sunlight"} selected={dialogSunlight} options={SpeciesSunlightOptions} onSelect={setDialogSunlight}/>
+								<FilterDropdowns
+									order={dialogOrder} setOrder={setDialogOrder}
+									cycle={dialogCycle} setCycle={setDialogCycle}
+									watering={dialogWatering} setWatering={setDialogWatering}
+									sunlight={dialogSunlight} setSunlight={setDialogSunlight}/>
 							</div>
 
 							<button

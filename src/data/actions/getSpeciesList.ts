@@ -3,7 +3,7 @@
 import {getAxiosErrorMessage, perenualApiKey, perenualApiUrl} from "@/data/actions/common";
 import axios, {AxiosError} from "axios";
 import logger from "@/logging";
-import {SpeciesList} from "@/data/models/SpeciesList";
+import {SpeciesListResponse} from "@/data/models/SpeciesListResponse";
 
 export type SpeciesListParams = {
 	page?: number;
@@ -16,7 +16,7 @@ export type SpeciesListParams = {
 }
 
 const getSpeciesList = async (params: Readonly<SpeciesListParams> = {}): Promise<{
-	data?: SpeciesList,
+	success?: SpeciesListResponse,
 	error?: Error
 }> => {
 	let requestUrl = Object.keys(params)
@@ -38,7 +38,9 @@ const getSpeciesList = async (params: Readonly<SpeciesListParams> = {}): Promise
 		)
 		logger.info("Received response for species list")
 		logger.debug(`Response data: ${JSON.stringify(response.data)}`)
-		return {data: (response.data as SpeciesList)}
+		return {
+			success: response.data as SpeciesListResponse
+		}
 	} catch (error) {
 		if (axios.isAxiosError(error))
 			return {
