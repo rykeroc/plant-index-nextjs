@@ -86,7 +86,7 @@ const SpeciesList = ({initialParams}: Readonly<{ initialParams: SpeciesListParam
 					"2xl:grid-cols-6 "
 				}>
 					{
-						isFetched && flattenedData &&
+						isFetched && !isError && flattenedData &&
 						flattenedData.map(e => (
 							<SpeciesCard
 								key={e.id}
@@ -100,7 +100,7 @@ const SpeciesList = ({initialParams}: Readonly<{ initialParams: SpeciesListParam
 
 					{/* Item skeletons when loading initial or more data */}
 					{
-						(isPending || isLoading || isFetchingNextPage || flattenedData === undefined)  &&
+						(isPending || isLoading || isFetchingNextPage || flattenedData === undefined) && !isError  &&
 						[...Array(12)].map((_, index) => <SpeciesCardSkeleton key={index}/>)
 					}
 
@@ -113,7 +113,7 @@ const SpeciesList = ({initialParams}: Readonly<{ initialParams: SpeciesListParam
 
 				{/* Text when there are no entries for the current search. */}
 				{
-					q !== '' && isFetched && flattenedData &&
+					q !== '' && isFetched && !isError && flattenedData &&
 					flattenedData.length === 0 &&
                     <div className={'w-full flex flex-col items-center space-y-2'}>
 						<MaterialIcon name={'search'} className={'text-6xl'}/>
