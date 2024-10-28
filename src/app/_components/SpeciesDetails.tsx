@@ -5,6 +5,7 @@ import ImageContainer from "@/app/_components/ImageContainer";
 import Button from "@/app/_components/base/Button";
 import useSpeciesDetailsQuery from "@/data/queries/useSpeciesDetailsQuery";
 import {useRouter} from "next/navigation";
+import {SpeciesDetailsResponse} from "@/data/models/SpeciesDetailsResponse";
 
 interface SpeciesDetailsProps {
 	speciesId: number;
@@ -81,18 +82,7 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 
 						{/* All: Other listed details */}
                         <div className={'flex flex-row justify-between'}>
-							{
-								[data?.origin, data?.propagation, data?.pruning_month].map(e =>
-									<div key={e?.toString()}>
-										<h4 className={'text-textSecondary'}>Origin</h4>
-										<ul>
-											{
-												e?.map(i => <li key={i}>{i}</li>)
-											}
-										</ul>
-									</div>
-								)
-							}
+							<SpeciesInfoLists data={data}/>
                         </div>
 
                         <div className={'block md:hidden'}>
@@ -167,12 +157,32 @@ const SpeciesExtraDetails = () => {
 			<Button className={'w-full justify-between'}>
 				<div className={'flex flex-row gap-2'}>
 					<MaterialIcon name={'book'}/>
-					<p className={'text-textSecondary'}>
+					{/* TODO: Show dialog */}
+					<a className={'text-textSecondary'}>
 						Care guide
-					</p>
+					</a>
 				</div>
 				<MaterialIcon name={'keyboard_arrow_right'}/>
 			</Button>
+		</div>
+	)
+}
+
+const SpeciesInfoLists = ({data}: Readonly<{ data: SpeciesDetailsResponse }>) => {
+	const dict: {[name: string]: string[]} = {
+		'Origin': data?.origin,
+		'Propagation': data?.propagation,
+		'Pruning month(s)': data?.pruning_month
+	}
+
+	return Object.keys(dict).map(k =>
+		<div key={k?.toString()}>
+			<h4 className={'text-textSecondary'}>{k}</h4>
+			<ul>
+				{
+					dict[k].map(i => <li key={i}>{i}</li>)
+				}
+			</ul>
 		</div>
 	)
 }
