@@ -13,12 +13,17 @@ const initialParams: SpeciesListParams = {
 	page: 1
 }
 
-const commonInfiniteQueryOptions: { staleTime: number; initialPageParam: number } = {
-	initialPageParam: initialParams.page ?? 1,
+const commonQueryOptions: { staleTime: number } = {
 	staleTime: 60 * 1000
+}
+
+const commonInfiniteQueryOptions: { staleTime: number; initialPageParam: number } = {
+	...commonQueryOptions,
+	initialPageParam: initialParams.page ?? 1,
 }
 
 export {
 	initialParams,
+	commonQueryOptions,
 	commonInfiniteQueryOptions
 }
