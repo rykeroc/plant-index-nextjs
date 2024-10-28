@@ -9,10 +9,8 @@ export default async function Home() {
 	await prefetchInfiniteSpeciesListQuery(queryClient)
 
 	return (
-		<div className={"flex flex-row gap-0 lg:gap-6"}>
-			<HydrationBoundary state={dehydrate(queryClient)}>
-				<SpeciesList initialParams={initialParams}/>
-			</HydrationBoundary>
-		</div>
+		<HydrationBoundary state={dehydrate(queryClient)}>
+			<SpeciesList initialParams={initialParams}/>
+		</HydrationBoundary>
 	);
 }

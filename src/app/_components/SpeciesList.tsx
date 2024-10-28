@@ -57,7 +57,7 @@ const SpeciesList = ({initialParams}: Readonly<{ initialParams: SpeciesListParam
 	}, [isInView, hasNextPage, fetchNextPage]);
 
 	return (
-		<>
+		<div className={"flex flex-row gap-0 lg:gap-10"}>
 			<section className={"hidden lg:block w-fit space-y-3"}>
 				<FilterDropdowns
 					order={order} setOrder={setOrder}
@@ -90,6 +90,7 @@ const SpeciesList = ({initialParams}: Readonly<{ initialParams: SpeciesListParam
 						flattenedData.map(e => (
 							<SpeciesCard
 								key={e.id}
+								speciesId={e.id}
 								imgSrc={e.default_image?.medium_url ?? ''}
 								imgAlt={`${e.common_name} thumbnail`}
 								commonName={e.common_name}
@@ -100,7 +101,7 @@ const SpeciesList = ({initialParams}: Readonly<{ initialParams: SpeciesListParam
 
 					{/* Item skeletons when loading initial or more data */}
 					{
-						(isPending || isLoading || isFetchingNextPage || flattenedData === undefined) && !isError  &&
+						(isPending || isLoading || isFetchingNextPage || flattenedData === undefined) && !isError &&
 						[...Array(12)].map((_, index) => <SpeciesCardSkeleton key={index}/>)
 					}
 
@@ -116,7 +117,7 @@ const SpeciesList = ({initialParams}: Readonly<{ initialParams: SpeciesListParam
 					q !== '' && isFetched && !isError && flattenedData &&
 					flattenedData.length === 0 &&
                     <div className={'w-full flex flex-col items-center space-y-2'}>
-						<MaterialIcon name={'search'} className={'text-6xl'}/>
+                        <MaterialIcon name={'search'} className={'text-6xl'}/>
                         <h3 className={"w-1/2 text-center"}>No search results for '{q}'</h3>
                     </div>
 				}
@@ -138,7 +139,7 @@ const SpeciesList = ({initialParams}: Readonly<{ initialParams: SpeciesListParam
 			<RefineDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen}
 						  initSunlight={sunlight} initCycle={cycle} initOrder={order} initWatering={watering}
 						  setSunlight={setSunlight} setCycle={setCycle} setOrder={setOrder} setWatering={setWatering}/>
-		</>
+		</div>
 	)
 }
 
