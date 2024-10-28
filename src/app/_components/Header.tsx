@@ -7,7 +7,11 @@ type HeaderProps = {
 const Header = ({ className }: Readonly<HeaderProps>) => {
   return (
 	  <div className={`space-y-3 ${className}`}>
-		  <h1 className={"text-primary"}>Plants</h1>
+		  <h1 className={"text-primary"}>
+			  <a href={'/'}>
+				Plants
+			  </a>
+		  </h1>
 		  <hr/>
 	  </div>
   )
