@@ -42,7 +42,7 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 				isError &&
                 <div className={'flex flex-col items-center space-y-2'}>
                     <h3 className={"w-1/2 text-center"}>{error.message}</h3>
-					<Button onClick={handleRefresh}>
+                    <Button onClick={handleRefresh}>
                         <MaterialIcon name={"refresh"} className={"transform"}/>
                         <p>Reload</p>
                     </Button>
@@ -82,7 +82,7 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 
 						{/* All: Other listed details */}
                         <div className={'flex flex-row justify-between'}>
-							<SpeciesInfoLists data={data}/>
+                            <SpeciesInfoLists data={data}/>
                         </div>
 
                         <div className={'block md:hidden'}>
@@ -107,7 +107,7 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 
 const SpeciesImage = ({src, alt}: Readonly<{ src: string, alt: string }>) => {
 	return (
-		<ImageContainer className={'w-full '}>
+		<ImageContainer className={'w-full cursor-auto'}>
 			{/* eslint-disable-next-line @next/next/no-img-element */}
 			{
 				src != ''
@@ -125,33 +125,24 @@ const SpeciesImage = ({src, alt}: Readonly<{ src: string, alt: string }>) => {
 }
 
 const SpeciesExtraDetails = () => {
+	const gridButtons: { [label: string]: string } = {
+		Watering: 'water_drop',
+		Sunlight: 'sunny',
+		Pruning: 'content_cut',
+		Cycle: 'cycle'
+	}
+
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div id={'info-grid'} className={'grid grid-cols-2 gap-3'}>
-				<Button>
-					<MaterialIcon name={'water_drop'}/>
-					<p className={'text-textSecondary'}>
-						Watering
-					</p>
-				</Button>
-				<Button>
-					<MaterialIcon name={'sunny'}/>
-					<p className={'text-textSecondary'}>
-						Sunlight
-					</p>
-				</Button>
-				<Button>
-					<MaterialIcon name={'content_cut'}/>
-					<p className={'text-textSecondary'}>
-						Pruning
-					</p>
-				</Button>
-				<Button>
-					<MaterialIcon name={'cycle'}/>
-					<p className={'text-textSecondary'}>
-						Cycle
-					</p>
-				</Button>
+				{
+					Object.keys(gridButtons).map((k) =>
+						<Button>
+							<MaterialIcon name={gridButtons[k]}/>
+							<p>{k}</p>
+						</Button>
+					)
+				}
 			</div>
 
 			<Button className={'w-full justify-between'}>
@@ -169,7 +160,7 @@ const SpeciesExtraDetails = () => {
 }
 
 const SpeciesInfoLists = ({data}: Readonly<{ data: SpeciesDetailsResponse }>) => {
-	const dict: {[name: string]: string[]} = {
+	const dict: { [name: string]: string[] } = {
 		'Origin': data?.origin,
 		'Propagation': data?.propagation,
 		'Pruning month(s)': data?.pruning_month
