@@ -6,7 +6,7 @@ import prefetchInfiniteSpeciesListQuery from "@/data/queries/prefetchInfiniteSpe
 export default async function Home() {
 	// Initial data fetching on the server
 	const queryClient = new QueryClient()
-	await prefetchInfiniteSpeciesListQuery()
+	await prefetchInfiniteSpeciesListQuery(queryClient)
 
 	return (
 		<div className={"flex flex-row gap-0 lg:gap-6"}>
