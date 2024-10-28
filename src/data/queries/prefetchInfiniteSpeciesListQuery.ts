@@ -2,8 +2,7 @@ import getSpeciesList from "@/data/actions/getSpeciesList";
 import {QueryClient} from "@tanstack/react-query";
 import {commonInfiniteQueryOptions, initialParams} from "@/data/queries/common";
 
-const prefetchInfiniteSpeciesListQuery = async () => {
-	const queryClient = new QueryClient()
+const prefetchInfiniteSpeciesListQuery = async (queryClient: QueryClient) => {
 	return await queryClient.prefetchInfiniteQuery({
 		...commonInfiniteQueryOptions,
 		queryKey: [
