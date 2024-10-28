@@ -50,7 +50,7 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 			}
 
 			{
-				isFetched && data &&
+				isFetched && !isError && data &&
                 <div className={'w-full flex flex-row ' +
 					'gap-0 ' +
 					'md:gap-10 ' +
@@ -81,9 +81,7 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
                         </div>
 
 						{/* All: Other listed details */}
-                        <div className={'flex flex-row justify-between'}>
-                            <SpeciesInfoLists data={data}/>
-                        </div>
+                        <SpeciesInfoLists data={data}/>
 
                         <div className={'block md:hidden'}>
                             <SpeciesExtraDetails/>
@@ -166,14 +164,22 @@ const SpeciesInfoLists = ({data}: Readonly<{ data: SpeciesDetailsResponse }>) =>
 		'Pruning month(s)': data?.pruning_month
 	}
 
-	return Object.keys(dict).map(k =>
-		<div key={k?.toString()}>
-			<h4 className={'text-textSecondary'}>{k}</h4>
-			<ul>
-				{
-					dict[k].map(i => <li key={i}>{i}</li>)
-				}
-			</ul>
+	return (
+		<div className={'flex flex-col justify-between gap-3 ' +
+			'sm:flex-row'}>
+			{
+				Object.keys(dict).map(k =>
+					<div key={k?.toString()} className={'w-full'}>
+						<h4 className={'text-textSecondary'}>{k}</h4>
+						<ul className={'w-fill grid grid-cols-2 ' +
+							'sm:flex sm:flex-col'}>
+							{
+								dict[k].map(i => <li className={'w-fit overflow-ellipsis line-clamp-1'} key={i}>{i}</li>)
+							}
+						</ul>
+					</div>
+				)
+			}
 		</div>
 	)
 }
