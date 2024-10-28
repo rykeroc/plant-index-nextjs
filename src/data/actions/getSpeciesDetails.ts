@@ -10,7 +10,7 @@ export type SpeciesDetailsParams = {
 	key?: string;
 }
 
-const getSpeciesList = async ({speciesId, key}: Readonly<SpeciesDetailsParams>): Promise<{
+const getSpeciesList = async ({speciesId, key = undefined}: Readonly<SpeciesDetailsParams>): Promise<{
 	success?: SpeciesDetailsResponse,
 	error?: Error
 }> => {
