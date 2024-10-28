@@ -4,6 +4,7 @@ import MaterialIcon from "@/app/_components/MaterialIcon";
 import ImageContainer from "@/app/_components/ImageContainer";
 import Button from "@/app/_components/base/Button";
 import useSpeciesDetailsQuery from "@/data/queries/useSpeciesDetailsQuery";
+import {useRouter} from "next/navigation";
 
 interface SpeciesDetailsProps {
 	speciesId: number;
@@ -23,16 +24,28 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 		<SpeciesImage src={data?.default_image?.original_url ?? ''} alt={`${data?.common_name} thumbnail`}/>
 	)
 
+	const router = useRouter()
+	const handleRefresh = () => {
+		console.log(`Refreshing data for Species ID: ${speciesId}`)
+		router.refresh()
+	}
+
 	return (
 		<div className={"w-full flex flex-row justify-center"}>
 			{
 				(isPending || isLoading) && !isError &&
-				<h1>Loading...</h1>
+                <h1>Loading...</h1>
 			}
 
 			{
 				isError &&
-				<h1>{error.message}</h1>
+                <div className={'flex flex-col items-center space-y-2'}>
+                    <h3 className={"w-1/2 text-center"}>{error.message}</h3>
+					<Button onClick={handleRefresh}>
+                        <MaterialIcon name={"refresh"} className={"transform"}/>
+                        <p>Reload</p>
+                    </Button>
+                </div>
 			}
 
 			{
@@ -70,11 +83,11 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
                         <div className={'flex flex-row justify-between'}>
 							{
 								[data?.origin, data?.propagation, data?.pruning_month].map(e =>
-									<div>
+									<div key={e?.toString()}>
 										<h4 className={'text-textSecondary'}>Origin</h4>
 										<ul>
 											{
-												e?.map(i => <li>{i}</li>)
+												e?.map(i => <li key={i}>{i}</li>)
 											}
 										</ul>
 									</div>
