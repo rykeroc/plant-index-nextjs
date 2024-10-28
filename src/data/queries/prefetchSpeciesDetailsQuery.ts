@@ -10,7 +10,7 @@ const prefetchSpeciesDetailsQuery = async (speciesId: number, queryClient: Query
 		],
 		queryFn: async () => {
 			const {success, error} = await getSpeciesDetails({speciesId})
-			if (error) throw error
+			if (error) throw new Error(error)
 			if (success) return success
 		},
 	})

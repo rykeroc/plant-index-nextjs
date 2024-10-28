@@ -10,7 +10,7 @@ const prefetchInfiniteSpeciesListQuery = async (queryClient: QueryClient) => {
 		],
 		queryFn: async () => {
 			const {success, error} = await getSpeciesList(initialParams)
-			if (error) throw error
+			if (error) throw new Error(error)
 			if (success) return success
 		},
 	})

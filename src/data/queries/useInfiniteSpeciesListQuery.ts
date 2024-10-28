@@ -19,7 +19,7 @@ const useInfiniteSpeciesListQuery = ({
 		queryKey: queryKey,
 		queryFn: async ({pageParam}) => {
 			const {success, error} = await getSpeciesList({order, cycle, watering, sunlight, q, page: pageParam})
-			if (error) throw error
+			if (error) throw new Error(error)
 			if (success) return success
 		},
 		getNextPageParam: (lastPage) => {

@@ -12,7 +12,7 @@ export type SpeciesDetailsParams = {
 
 const getSpeciesList = async ({speciesId, key = undefined}: Readonly<SpeciesDetailsParams>): Promise<{
 	success?: SpeciesDetailsResponse,
-	error?: Error
+	error?: string
 }> => {
 	const requestUrl = `${perenualApiUrl}/species/details/${speciesId}?key=${key ?? perenualApiKey}`
 	logger.verbose(`Request URL: ${requestUrl}`)
@@ -31,11 +31,11 @@ const getSpeciesList = async ({speciesId, key = undefined}: Readonly<SpeciesDeta
 	} catch (error) {
 		if (axios.isAxiosError(error))
 			return {
-				error: new Error(getAxiosErrorMessage(error as AxiosError))
+				error: getAxiosErrorMessage(error as AxiosError)
 			}
 		else
 			return {
-				error: new Error('An unexpected error occurred')
+				error: 'An unexpected error occurred'
 			}
 	}
 }

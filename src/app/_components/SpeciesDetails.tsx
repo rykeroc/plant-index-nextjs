@@ -6,6 +6,7 @@ import Button from "@/app/_components/base/Button";
 import useSpeciesDetailsQuery from "@/data/queries/useSpeciesDetailsQuery";
 import {useRouter} from "next/navigation";
 import {SpeciesDetailsResponse} from "@/data/models/SpeciesDetailsResponse";
+import ErrorMessage from "@/app/_components/ErrorMessage";
 
 interface SpeciesDetailsProps {
 	speciesId: number;
@@ -40,13 +41,11 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 
 			{
 				isError &&
-                <div className={'flex flex-col items-center space-y-2'}>
-                    <h3 className={"w-1/2 text-center"}>{error.message}</h3>
-                    <Button onClick={handleRefresh}>
-                        <MaterialIcon name={"refresh"} className={"transform"}/>
-                        <p>Reload</p>
-                    </Button>
-                </div>
+				<ErrorMessage
+					errorMessage={error.message}
+					onButtonClick={handleRefresh}
+					buttonIconName={'refresh'}
+					buttonLabel={'Reload'}/>
 			}
 
 			{

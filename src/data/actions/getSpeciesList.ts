@@ -17,7 +17,7 @@ export type SpeciesListParams = {
 
 const getSpeciesList = async (params: Readonly<SpeciesListParams> = {}): Promise<{
 	success?: SpeciesListResponse,
-	error?: Error
+	error?: string
 }> => {
 	let requestUrl = Object.keys(params)
 		.reduce((acc, curr) => {
@@ -44,11 +44,11 @@ const getSpeciesList = async (params: Readonly<SpeciesListParams> = {}): Promise
 	} catch (error) {
 		if (axios.isAxiosError(error))
 			return {
-				error: new Error(getAxiosErrorMessage(error as AxiosError))
+				error: getAxiosErrorMessage(error as AxiosError)
 			}
 		else
 			return {
-				error: new Error('An unexpected error occurred')
+				error: 'An unexpected error occurred'
 			}
 	}
 }

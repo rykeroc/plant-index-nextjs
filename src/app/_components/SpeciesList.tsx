@@ -17,6 +17,7 @@ import {useInView} from "framer-motion";
 import FilterDropdowns from "@/app/_components/FilterDropdowns";
 import useInfiniteSpeciesListQuery from "@/data/queries/useInfiniteSpeciesListQuery";
 import {SpeciesListItem} from "@/data/models/SpeciesListResponse";
+import ErrorMessage from "@/app/_components/ErrorMessage";
 
 const SpeciesList = ({initialParams}: Readonly<{ initialParams: SpeciesListParams }>) => {
 	const endListRef = useRef(null)
@@ -125,13 +126,11 @@ const SpeciesList = ({initialParams}: Readonly<{ initialParams: SpeciesListParam
 				{/* Error message with button for refreshing data. */}
 				{
 					isError &&
-                    <div className={'w-full flex flex-col items-center space-y-2'}>
-                        <h3 className={"w-1/2 text-center"}>{error.message}</h3>
-                        <Button onClick={handleRefresh}>
-                            <MaterialIcon name={"refresh"} className={"transform"}/>
-                            <p>Reload</p>
-                        </Button>
-                    </div>
+                    <ErrorMessage
+                        errorMessage={error.message}
+                        onButtonClick={handleRefresh}
+                        buttonIconName={'refresh'}
+                        buttonLabel={'Reload'}/>
 				}
 			</section>
 

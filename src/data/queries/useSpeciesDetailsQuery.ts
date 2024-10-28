@@ -14,7 +14,7 @@ const useSpeciesDetailsQuery = ({speciesId}: Readonly<SpeciesDetailsQueryParams>
 		],
 		queryFn: async () => {
 			const {success, error} = await getSpeciesDetails({speciesId})
-			if (error) throw error
+			if (error) throw new Error(error)
 			if (success) return success
 		},
 	})
