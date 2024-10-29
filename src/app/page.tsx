@@ -1,5 +1,5 @@
 import {dehydrate, HydrationBoundary, QueryClient} from "@tanstack/react-query";
-import SpeciesList from "@/app/SpeciesList";
+import SpeciesList from "@/app/_components/Species/SpeciesList";
 import {initialParams} from "@/data/queries/common";
 import prefetchInfiniteSpeciesListQuery from "@/data/queries/prefetchInfiniteSpeciesListQuery";
 

@@ -36,6 +36,7 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 		<div className={"w-full flex flex-row justify-center"}>
 			{
 				(isPending || isLoading) && !isError &&
+				// TODO: Add skeleton loading
                 <h1>Loading...</h1>
 			}
 

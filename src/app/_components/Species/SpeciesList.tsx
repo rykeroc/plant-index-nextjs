@@ -2,7 +2,7 @@
 
 import {useQueryClient} from "@tanstack/react-query";
 import {SpeciesListParams} from "@/data/actions/getSpeciesList";
-import SpeciesCard from "@/app/_components/SpeciesCard";
+import SpeciesCard from "@/app/_components/SpeciesCard/SpeciesCard";
 import SpeciesOrderOptions from "@/app/_constants/SpeciesSortOptions";
 import SpeciesCycleOptions from "@/app/_constants/SpeciesCycleOptions";
 import SpeciesWateringOptions from "@/app/_constants/SpeciesWateringOptions";
@@ -11,7 +11,7 @@ import {useEffect, useRef, useState} from "react";
 import TextInput from "@/app/_components/base/TextInput";
 import Button from "@/app/_components/base/Button";
 import RefineDialog from "@/app/_components/RefineDialog";
-import SpeciesCardSkeleton from "@/app/_components/SpeciesCardSkeleton";
+import SpeciesCardSkeleton from "@/app/_components/SpeciesCard/SpeciesCardSkeleton";
 import MaterialIcon from "@/app/_components/MaterialIcon";
 import {useInView} from "framer-motion";
 import FilterDropdowns from "@/app/_components/FilterDropdowns";

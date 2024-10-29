@@ -1,6 +1,6 @@
 import logger from "@/logging";
 import {dehydrate, HydrationBoundary, QueryClient} from "@tanstack/react-query";
-import _SpeciesDetails from "@/app/[speciesId]/SpeciesDetails";
+import _SpeciesDetails from "@/app/_components/SpeciesDetails/SpeciesDetails";
 
 interface SpeciesDetailsProps {
 	params: {
