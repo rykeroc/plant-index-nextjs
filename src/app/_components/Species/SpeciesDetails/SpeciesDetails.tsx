@@ -7,6 +7,7 @@ import useSpeciesDetailsQuery from "@/data/queries/useSpeciesDetailsQuery";
 import {useRouter} from "next/navigation";
 import {SpeciesDetailsResponse} from "@/data/models/SpeciesDetailsResponse";
 import ErrorMessage from "@/app/_components/ErrorMessage";
+import SpeciesDetailsSkeleton from "@/app/_components/Species/SpeciesDetails/SpeciesDetailsSkeleton";
 
 interface SpeciesDetailsProps {
 	speciesId: number;
@@ -32,73 +33,63 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 		router.refresh()
 	}
 
+	if ((isPending || isLoading) && !isError)
+		return <SpeciesDetailsSkeleton/>
+
+	if (isError)
+		return <ErrorMessage
+			errorMessage={error.message}
+			onButtonClick={handleRefresh}
+			buttonIconName={'refresh'}
+			buttonLabel={'Reload'}/>
+
 	return (
-		<div className={"w-full flex flex-row justify-center"}>
-			{
-				(isPending || isLoading) && !isError &&
-				// TODO: Add skeleton loading
-                <h1>Loading...</h1>
-			}
+		<div className={'w-full flex flex-row ' +
+			'gap-0 ' +
+			'md:gap-10 ' +
+			'xl:w-5/6 ' +
+			'2xl:w-3/4 '}>
 
-			{
-				isError &&
-				<ErrorMessage
-					errorMessage={error.message}
-					onButtonClick={handleRefresh}
-					buttonIconName={'refresh'}
-					buttonLabel={'Reload'}/>
-			}
+			<section className={'flex flex-col w-full gap-3 ' +
+				'md:w-1/2 ' +
+				'lg:w-2/3'}>
 
-			{
-				isFetched && !isError && data &&
-                <div className={'w-full flex flex-row ' +
-					'gap-0 ' +
-					'md:gap-10 ' +
-					'xl:w-5/6 ' +
-					'2xl:w-3/4 '}>
+				{/* Mobile: Species image */}
+				<section className={'w-full ' +
+					'flex flex-col ' +
+					'md:hidden'}>
+					{speciesImage}
+				</section>
 
-                    <section className={'flex flex-col w-full gap-3 ' +
-						'md:w-1/2 ' +
-						'lg:w-2/3'}>
+				{/* All: Species names (Common and Scientific) */}
+				<div>
+					<h2>{data?.common_name}</h2>
+					<h3 className={'text-textSecondary'}>{data?.scientific_name}</h3>
+				</div>
 
-						{/* Mobile: Species image */}
-                        <section className={'w-full ' +
-							'flex flex-col ' +
-							'md:hidden'}>
-							{speciesImage}
-                        </section>
+				{/* All: Species Description */}
+				<div>
+					<h4 className={'text-textSecondary'}>Description</h4>
+					<p>{data?.description}</p>
+				</div>
 
-						{/* All: Species names (Common and Scientific) */}
-                        <div>
-                            <h2>{data?.common_name}</h2>
-                            <h3 className={'text-textSecondary'}>{data?.scientific_name}</h3>
-                        </div>
+				{/* All: Other listed details */}
+				<SpeciesInfoLists data={data}/>
 
-						{/* All: Species Description */}
-                        <div>
-                            <h4 className={'text-textSecondary'}>Description</h4>
-                            <p>{data?.description}</p>
-                        </div>
+				<div className={'block md:hidden'}>
+					<SpeciesExtraDetails/>
+				</div>
+			</section>
 
-						{/* All: Other listed details */}
-                        <SpeciesInfoLists data={data}/>
+			{/* Tablet and desktop: Species and Image*/}
+			<section className={'gap-3 ' +
+				'hidden ' +
+				'md:w-1/2 md:flex md:flex-col ' +
+				'lg:w-1/3'}>
+				{speciesImage}
 
-                        <div className={'block md:hidden'}>
-                            <SpeciesExtraDetails/>
-                        </div>
-                    </section>
-
-					{/* Tablet and desktop: Species and Image*/}
-                    <section className={'gap-3 ' +
-						'hidden ' +
-						'md:w-1/2 md:flex md:flex-col ' +
-						'lg:w-1/3'}>
-						{speciesImage}
-
-                        <SpeciesExtraDetails/>
-                    </section>
-                </div>
-			}
+				<SpeciesExtraDetails/>
+			</section>
 		</div>
 	)
 }
@@ -157,16 +148,16 @@ const SpeciesExtraDetails = () => {
 	)
 }
 
-const SpeciesInfoLists = ({data}: Readonly<{ data: SpeciesDetailsResponse }>) => {
+const SpeciesInfoLists = ({data}: Readonly<{ data: SpeciesDetailsResponse | undefined }>) => {
 	const dict: { [name: string]: string[] } = {
-		'Origin': data?.origin,
-		'Propagation': data?.propagation,
-		'Pruning month(s)': data?.pruning_month
+		'Origin': data?.origin ?? [],
+		'Propagation': data?.propagation ?? [],
+		'Pruning month(s)': data?.pruning_month ?? []
 	}
 
 	return (
 		<div className={'flex flex-col justify-between gap-3 ' +
-			'sm:flex-row'}>
+			'sm:grid sm:grid-cols-3'}>
 			{
 				Object.keys(dict).map(k =>
 					<div key={k?.toString()} className={'w-full'}>
@@ -174,7 +165,8 @@ const SpeciesInfoLists = ({data}: Readonly<{ data: SpeciesDetailsResponse }>) =>
 						<ul className={'w-fill grid grid-cols-2 ' +
 							'sm:flex sm:flex-col'}>
 							{
-								dict[k].map(i => <li className={'w-fit overflow-ellipsis line-clamp-1'} key={i}>{i}</li>)
+								dict[k].map(i => <li className={'w-fit overflow-ellipsis line-clamp-1'}
+													 key={i}>{i}</li>)
 							}
 						</ul>
 					</div>
