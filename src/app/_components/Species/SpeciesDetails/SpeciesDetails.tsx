@@ -17,7 +17,6 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 	const {
 		isPending,
 		isLoading,
-		isFetched,
 		isError,
 		data,
 		error
@@ -126,7 +125,7 @@ const SpeciesExtraDetails = () => {
 			<div id={'info-grid'} className={'grid grid-cols-2 gap-3'}>
 				{
 					Object.keys(gridButtons).map((k) =>
-						<Button>
+						<Button key={k}>
 							<MaterialIcon name={gridButtons[k]}/>
 							<p>{k}</p>
 						</Button>
@@ -165,8 +164,8 @@ const SpeciesInfoLists = ({data}: Readonly<{ data: SpeciesDetailsResponse | unde
 						<ul className={'w-fill grid grid-cols-2 ' +
 							'sm:flex sm:flex-col'}>
 							{
-								dict[k].map(i => <li className={'w-fit overflow-ellipsis line-clamp-1'}
-													 key={i}>{i}</li>)
+								dict[k].map(i =>
+									<li key={i} className={'w-fit overflow-ellipsis line-clamp-1'}>{i}</li>)
 							}
 						</ul>
 					</div>

@@ -4,6 +4,7 @@ import {getAxiosErrorMessage, perenualApiKey, perenualApiUrl} from "@/data/actio
 import axios, {AxiosError} from "axios";
 import logger from "@/logging";
 import {SpeciesDetailsResponse} from "@/data/models/SpeciesDetailsResponse";
+import {monthCompare, stringCompare} from "@/utils/comparison";
 
 export type SpeciesDetailsParams = {
 	speciesId: number;
@@ -25,6 +26,19 @@ const getSpeciesList = async ({speciesId, key = undefined}: Readonly<SpeciesDeta
 		)
 		logger.info("Received response for species details")
 		logger.debug(`Response data: ${JSON.stringify(response.data)}`)
+
+		const responseData = response.data as SpeciesDetailsResponse
+
+		/*
+		 Remove possible duplicates from:
+		 - Origin
+		 - Propagation
+		 - Pruning months
+		 */
+		responseData.origin = Array.from(new Set(responseData.origin)).sort(stringCompare)
+		responseData.propagation = Array.from(new Set(responseData.propagation)).sort(stringCompare)
+		responseData.pruning_month = Array.from(new Set(responseData.pruning_month)).sort(monthCompare)
+
 		return {
 			success: response.data as SpeciesDetailsResponse
 		}
