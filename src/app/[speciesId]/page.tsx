@@ -1,6 +1,6 @@
 import logger from "@/logging";
 import {dehydrate, HydrationBoundary, QueryClient} from "@tanstack/react-query";
-import _SpeciesDetails from "@/app/_components/SpeciesDetails/SpeciesDetails";
+import SpeciesDetails from "@/app/_components/Species/SpeciesDetails/SpeciesDetails";
 
 interface SpeciesDetailsProps {
 	params: {
@@ -16,7 +16,7 @@ const SpeciesDetailsPage = async ({params}: Readonly<SpeciesDetailsProps>) => {
 
 	return (
 		<HydrationBoundary state={dehydrate(queryClient)}>
-			<_SpeciesDetails speciesId={params.speciesId} />
+			<SpeciesDetails speciesId={params.speciesId} />
 		</HydrationBoundary>
 	)
 }
