@@ -1,4 +1,4 @@
-import {AxiosError} from "axios";
+import axios, {AxiosError} from "axios";
 import logger from "@/logging";
 
 const perenualApiUrl = "https://perenual.com/api"
@@ -23,8 +23,19 @@ const getAxiosErrorMessage = (error: AxiosError): string => {
 	return message
 }
 
+const getErrorMessage = (error: unknown) => {
+	if (axios.isAxiosError(error))
+		return {
+			error: getAxiosErrorMessage(error as AxiosError)
+		}
+	else
+		return {
+			error: 'An unexpected error occurred'
+		}
+}
+
 export {
 	perenualApiUrl,
 	perenualApiKey,
-	getAxiosErrorMessage
+	getErrorMessage
 }

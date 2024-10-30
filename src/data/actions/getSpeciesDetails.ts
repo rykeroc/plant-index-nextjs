@@ -1,17 +1,13 @@
 'use server'
 
-import {getAxiosErrorMessage, perenualApiKey, perenualApiUrl} from "@/data/actions/common";
-import axios, {AxiosError} from "axios";
+import {getErrorMessage, perenualApiKey, perenualApiUrl} from "@/data/actions/common";
+import axios from "axios";
 import logger from "@/logging";
 import {SpeciesDetailsResponse} from "@/data/models/SpeciesDetailsResponse";
 import {monthCompare, stringCompare} from "@/utils/comparison";
+import {SpeciesParams} from "@/data/types/SpeciesParams";
 
-export type SpeciesDetailsParams = {
-	speciesId: number;
-	key?: string;
-}
-
-const getSpeciesList = async ({speciesId, key = undefined}: Readonly<SpeciesDetailsParams>): Promise<{
+const getSpeciesDetails = async ({speciesId, key = undefined}: Readonly<SpeciesParams>): Promise<{
 	success?: SpeciesDetailsResponse,
 	error?: string
 }> => {
@@ -43,15 +39,8 @@ const getSpeciesList = async ({speciesId, key = undefined}: Readonly<SpeciesDeta
 			success: response.data as SpeciesDetailsResponse
 		}
 	} catch (error) {
-		if (axios.isAxiosError(error))
-			return {
-				error: getAxiosErrorMessage(error as AxiosError)
-			}
-		else
-			return {
-				error: 'An unexpected error occurred'
-			}
+		return getErrorMessage(error)
 	}
 }
 
-export default getSpeciesList
+export default getSpeciesDetails

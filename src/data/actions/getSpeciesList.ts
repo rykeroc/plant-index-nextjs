@@ -1,7 +1,7 @@
 'use server'
 
-import {getAxiosErrorMessage, perenualApiKey, perenualApiUrl} from "@/data/actions/common";
-import axios, {AxiosError} from "axios";
+import {getErrorMessage, perenualApiKey, perenualApiUrl} from "@/data/actions/common";
+import axios from "axios";
 import logger from "@/logging";
 import {SpeciesListResponse} from "@/data/models/SpeciesListResponse";
 
@@ -42,14 +42,7 @@ const getSpeciesList = async (params: Readonly<SpeciesListParams> = {}): Promise
 			success: response.data as SpeciesListResponse
 		}
 	} catch (error) {
-		if (axios.isAxiosError(error))
-			return {
-				error: getAxiosErrorMessage(error as AxiosError)
-			}
-		else
-			return {
-				error: 'An unexpected error occurred'
-			}
+		return getErrorMessage(error)
 	}
 }
 
