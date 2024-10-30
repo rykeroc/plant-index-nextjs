@@ -48,10 +48,12 @@ const RefineDialog = ({
 						transition
 						className="relative transform min-w-48 sm:w-1/4 sm:max-w-72 overflow-hidden rounded-lg bg-background text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
 					>
-						<div className="bg-white p-4 text-left space-y-4">
-							<DialogTitle as="h3" className="font-semibold leading-6 text-textPrimary">
+						<div className="bg-white p-4 text-left space-y-2">
+							<DialogTitle as="h3" className="leading-6 text-primary">
 								Refine
 							</DialogTitle>
+
+							<hr/>
 
 							<div className={"space-y-1"}>
 								<FilterDropdowns
@@ -60,6 +62,8 @@ const RefineDialog = ({
 									watering={dialogWatering} setWatering={setDialogWatering}
 									sunlight={dialogSunlight} setSunlight={setDialogSunlight}/>
 							</div>
+
+							<hr/>
 
 							<button
 								type="button"
