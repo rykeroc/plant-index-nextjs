@@ -1,4 +1,4 @@
-import {SpeciesCareGuideItem} from "@/data/models/SpeciesCareGuideItem";
+import {SpeciesCareGuideSection} from "@/data/models/SpeciesCareGuideItem";
 
 export interface SpeciesDetailsResponse {
 	id: number;
@@ -13,7 +13,7 @@ export interface SpeciesDetailsResponse {
 	watering: string;
 	sunlight: string[];
 	'care-guides': string;
-	care_guides_sections: SpeciesCareGuideItem[]
+	care_guides_sections: SpeciesCareGuideSection[]
 	default_image: {
 		original_url: string;
 		regular_url: string;

@@ -39,7 +39,7 @@ const getSpeciesDetails = async ({speciesId, key = undefined}: Readonly<SpeciesP
 		const careGuideResponse = response.data as SpeciesCareGuideResponse
 
 		// Add species care guide to response data
-		detailsResponse.care_guides_sections = careGuideResponse.data
+		detailsResponse.care_guides_sections = careGuideResponse.data[0].section
 
 		/*
 		 Remove possible duplicates from:

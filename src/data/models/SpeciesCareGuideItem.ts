@@ -1,4 +1,4 @@
-interface SpeciesCareGuideSection {
+export interface SpeciesCareGuideSection {
 	id: number;
 	type: string;
 	description: string
