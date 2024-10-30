@@ -8,12 +8,17 @@ import {useRouter} from "next/navigation";
 import {SpeciesDetailsResponse} from "@/data/models/SpeciesDetailsResponse";
 import ErrorMessage from "@/app/_components/ErrorMessage";
 import SpeciesDetailsSkeleton from "@/app/_components/Species/SpeciesDetails/SpeciesDetailsSkeleton";
+import {useState} from "react";
+import SpeciesCareGuideDialog from "@/app/_components/Species/SpeciesCareGuideDialog";
 
 interface SpeciesDetailsProps {
 	speciesId: number;
 }
 
 const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
+	const [isDialogOpen, setIsDialogOpen] = useState(false)
+	const handleOpenDialog = () => setIsDialogOpen(true)
+
 	const {
 		isPending,
 		isLoading,
@@ -24,6 +29,10 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 
 	const speciesImage = (
 		<SpeciesImage src={data?.default_image?.original_url ?? ''} alt={`${data?.common_name} thumbnail`}/>
+	)
+
+	const speciesExtraDetails = (
+		<SpeciesExtraDetails onCareGuideClick={handleOpenDialog}/>
 	)
 
 	const router = useRouter()
@@ -43,53 +52,60 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 			buttonLabel={'Reload'}/>
 
 	return (
-		<div className={'w-full flex flex-row ' +
-			'gap-0 ' +
-			'md:gap-10 ' +
-			'xl:w-5/6 ' +
-			'2xl:w-3/4 '}>
+		<>
+			<div className={'w-full flex flex-row ' +
+				'gap-0 ' +
+				'md:gap-10 ' +
+				'xl:w-5/6 ' +
+				'2xl:w-3/4 '}>
 
-			<section className={'flex flex-col w-full gap-3 ' +
-				'md:w-1/2 ' +
-				'lg:w-2/3'}>
+				<section className={'flex flex-col w-full gap-3 ' +
+					'md:w-1/2 ' +
+					'lg:w-2/3'}>
 
-				{/* Mobile: Species image */}
-				<section className={'w-full ' +
-					'flex flex-col ' +
-					'md:hidden'}>
-					{speciesImage}
+					{/* Mobile: Species image */}
+					<section className={'w-full ' +
+						'flex flex-col ' +
+						'md:hidden'}>
+						{speciesImage}
+					</section>
+
+					{/* All: Species names (Common and Scientific) */}
+					<div>
+						<h2>{data?.common_name}</h2>
+						<h3 className={'text-textSecondary'}>{data?.scientific_name}</h3>
+					</div>
+
+					{/* All: Species Description */}
+					<div>
+						<h4 className={'text-textSecondary'}>Description</h4>
+						<p>{data?.description}</p>
+					</div>
+
+					{/* All: Other listed details */}
+					<SpeciesInfoLists data={data}/>
+
+					<div className={'block md:hidden'}>
+						{speciesExtraDetails}
+					</div>
 				</section>
 
-				{/* All: Species names (Common and Scientific) */}
-				<div>
-					<h2>{data?.common_name}</h2>
-					<h3 className={'text-textSecondary'}>{data?.scientific_name}</h3>
-				</div>
+				{/* Tablet and desktop: Species and Image*/}
+				<section className={'gap-3 ' +
+					'hidden ' +
+					'md:w-1/2 md:flex md:flex-col ' +
+					'lg:w-1/3'}>
+					{speciesImage}
 
-				{/* All: Species Description */}
-				<div>
-					<h4 className={'text-textSecondary'}>Description</h4>
-					<p>{data?.description}</p>
-				</div>
+					{speciesExtraDetails}
+				</section>
+			</div>
 
-				{/* All: Other listed details */}
-				<SpeciesInfoLists data={data}/>
-
-				<div className={'block md:hidden'}>
-					<SpeciesExtraDetails/>
-				</div>
-			</section>
-
-			{/* Tablet and desktop: Species and Image*/}
-			<section className={'gap-3 ' +
-				'hidden ' +
-				'md:w-1/2 md:flex md:flex-col ' +
-				'lg:w-1/3'}>
-				{speciesImage}
-
-				<SpeciesExtraDetails/>
-			</section>
-		</div>
+			{
+				data?.care_guides_sections &&
+                <SpeciesCareGuideDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} sections={data.care_guides_sections}/>
+			}
+		</>
 	)
 }
 
@@ -112,7 +128,7 @@ const SpeciesImage = ({src, alt}: Readonly<{ src: string, alt: string }>) => {
 	)
 }
 
-const SpeciesExtraDetails = () => {
+const SpeciesExtraDetails = ({onCareGuideClick}: {onCareGuideClick: () => void}) => {
 	const gridButtons: { [label: string]: string } = {
 		Watering: 'water_drop',
 		Sunlight: 'sunny',
@@ -133,10 +149,9 @@ const SpeciesExtraDetails = () => {
 				}
 			</div>
 
-			<Button className={'w-full justify-between'}>
+			<Button className={'w-full justify-between'} onClick={onCareGuideClick}>
 				<div className={'flex flex-row gap-2'}>
 					<MaterialIcon name={'book'}/>
-					{/* TODO: Show dialog */}
 					<a className={'text-textSecondary'}>
 						Care guide
 					</a>
