@@ -20,6 +20,7 @@ describe("Get Species List", () => {
 		expect(details.success?.sunlight.length).toBeGreaterThan(0)
 		expect(details.success?.default_image).toBeTruthy()
 		expect(details.success?.default_image?.original_url).toBeTruthy()
+		expect(details.success?.care_guides_sections.length).toBeGreaterThan(0)
 	})
 
 	test("Failure - Invalid Species ID", async () => {

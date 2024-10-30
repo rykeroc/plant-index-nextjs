@@ -1,3 +1,5 @@
+import {SpeciesCareGuideItem} from "@/data/models/SpeciesCareGuideItem";
+
 export interface SpeciesDetailsResponse {
 	id: number;
 	common_name: string;
@@ -10,6 +12,8 @@ export interface SpeciesDetailsResponse {
 	cycle: string;
 	watering: string;
 	sunlight: string[];
+	'care-guides': string;
+	care_guides_sections: SpeciesCareGuideItem[]
 	default_image: {
 		original_url: string;
 		regular_url: string;
