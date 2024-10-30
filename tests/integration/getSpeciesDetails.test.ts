@@ -29,7 +29,6 @@ describe("Get Species List", () => {
 		expect(details).toBeTruthy()
 		expect(details.success).toBeFalsy()
 		expect(details.error).toBeTruthy()
-		expect(details.error?.message).toBeTruthy()
 	})
 
 	test("Failure - Invalid API key", async () => {
@@ -40,6 +39,5 @@ describe("Get Species List", () => {
 		expect(details).toBeTruthy()
 		expect(details.success).toBeFalsy()
 		expect(details.error).toBeTruthy()
-		expect(details.error?.message).toBeTruthy()
 	})
 })

@@ -1,5 +1,5 @@
 import getSpeciesList from "../../src/data/actions/getSpeciesList"
-import {SpeciesListItem} from "@/data/models/SpeciesListResponse";
+import {SpeciesListItem, SpeciesListResponse} from "@/data/models/SpeciesListResponse";
 
 describe("Get Species List", () => {
 	test("Success - No Params", async () => {
@@ -30,8 +30,8 @@ describe("Get Species List", () => {
 
 	test("Success - All cycle options", async () => {
 		let res: {
-			data?: SpeciesListItem[],
-			error?: Error
+			data?: SpeciesListResponse,
+			error?: string
 		}
 		for (let option of ["perennial", 'annual', 'biennial', 'biannual']){
 			res = await getSpeciesList({
@@ -45,23 +45,23 @@ describe("Get Species List", () => {
 
 	test("Success - All watering options", async () => {
 		let res: {
-			data?: SpeciesListItem[],
-			error?: Error
+			success?: SpeciesListResponse,
+			error?: string
 		}
 		for (let option of ['Minimum', 'Average', 'Frequent']){
 			res = await getSpeciesList({
 				watering: option
 			})
 			expect(res).toBeTruthy()
-			expect(res.data).toBeTruthy()
+			expect(res.success).toBeTruthy()
 			expect(res.error).toBeFalsy()
 		}
 	})
 
 	test("Success - All sunlight options", async () => {
 		let res: {
-			data?: SpeciesListItem[],
-			error?: Error
+			data?: SpeciesListResponse,
+			error?: string
 		}
 		for (let option of ['full_shade', 'part_shade', 'full_sun']){
 			res = await getSpeciesList({
@@ -89,6 +89,5 @@ describe("Get Species List", () => {
 		expect(res).toBeTruthy()
 		expect(res.success?.data).toBeFalsy()
 		expect(res.error).toBeTruthy()
-		expect(res.error?.message).toBeTruthy()
 	})
 })
