@@ -2,7 +2,6 @@
 
 import {getErrorMessage, perenualApiKey, perenualApiUrl} from "@/data/actions/common";
 import axios from "axios";
-import logger from "@/logging";
 import {SpeciesDetailsResponse} from "@/data/models/SpeciesDetailsResponse";
 import {monthCompare, stringCompare} from "@/utils/comparison";
 import {SpeciesParams} from "@/data/types/SpeciesParams";
@@ -13,28 +12,28 @@ const getSpeciesDetails = async ({speciesId, key = undefined}: Readonly<SpeciesP
 	error?: string
 }> => {
 	const requestUrl = `${perenualApiUrl}/species/details/${speciesId}?key=${key ?? perenualApiKey}`
-	logger.verbose(`Request URL: ${requestUrl}`)
+	console.log(`Request URL: ${requestUrl}`)
 
 	try {
 		// Get species details
-		logger.info("Sending species details request...")
+		console.log("Sending species details request...")
 		let response = await axios.get(
 			requestUrl,
 			{timeout: 10 * 1000}
 		)
-		logger.info("Received response for species details")
-		logger.debug(`Response data: ${JSON.stringify(response.data)}`)
+		console.log("Received response for species details")
+		console.log(`Response data: ${JSON.stringify(response.data)}`)
 
 		const detailsResponse = response.data as SpeciesDetailsResponse
 
 		// Get species care guide
-		logger.info("Sending species care guide request...")
+		console.log("Sending species care guide request...")
 		response = await axios.get(
 			detailsResponse['care-guides'],
 			{timeout: 10 * 1000}
 		)
-		logger.info("Received response for species care guide")
-		logger.debug(`Response data: ${JSON.stringify(response.data)}`)
+		console.log("Received response for species care guide")
+		console.log(`Response data: ${JSON.stringify(response.data)}`)
 
 		const careGuideResponse = response.data as SpeciesCareGuideResponse
 

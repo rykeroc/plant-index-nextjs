@@ -2,7 +2,6 @@
 
 import {getErrorMessage, perenualApiKey, perenualApiUrl} from "@/data/actions/common";
 import axios from "axios";
-import logger from "@/logging";
 import {SpeciesListResponse} from "@/data/models/SpeciesListResponse";
 
 export type SpeciesListParams = {
@@ -28,16 +27,16 @@ const getSpeciesList = async (params: Readonly<SpeciesListParams> = {}): Promise
 	if (!params.key)
 		requestUrl += `&key=${perenualApiKey}`
 
-	logger.verbose(`Request URL: ${requestUrl}`)
+	console.log(`Request URL: ${requestUrl}`)
 
 	try {
-		logger.info("Sending species list request...")
+		console.log("Sending species list request...")
 		const response = await axios.get(
 			requestUrl,
 			{timeout: 10 * 1000}
 		)
-		logger.info("Received response for species list")
-		logger.debug(`Response data: ${JSON.stringify(response.data)}`)
+		console.log("Received response for species list")
+		console.log(`Response data: ${JSON.stringify(response.data)}`)
 		return {
 			success: response.data as SpeciesListResponse
 		}

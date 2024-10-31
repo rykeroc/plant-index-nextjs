@@ -1,12 +1,11 @@
 import axios, {AxiosError} from "axios";
-import logger from "@/logging";
 
 const perenualApiUrl = "https://perenual.com/api"
 
 const perenualApiKey = process.env.NEXT_PERENUAL_API_KEY || ''
 
 const getAxiosErrorMessage = (error: AxiosError): string => {
-	logger.error(error)
+	console.log(error)
 
 	let message: string = 'An error occurred. Please try again in a few minutes'
 
