@@ -10,6 +10,7 @@ import ErrorMessage from "@/app/_components/ErrorMessage";
 import SpeciesDetailsSkeleton from "@/app/_components/Species/SpeciesDetails/SpeciesDetailsSkeleton";
 import {useState} from "react";
 import SpeciesCareGuideDialog from "@/app/_components/Species/SpeciesCareGuideDialog";
+import {capitalize} from "@/utils/string";
 
 interface SpeciesDetailsProps {
 	speciesId: number;
@@ -27,14 +28,6 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 		error
 	} = useSpeciesDetailsQuery({speciesId})
 
-	const speciesImage = (
-		<SpeciesImage src={data?.default_image?.original_url ?? ''} alt={`${data?.common_name} thumbnail`}/>
-	)
-
-	const speciesExtraDetails = (
-		<SpeciesExtraDetails onCareGuideClick={handleOpenDialog}/>
-	)
-
 	const router = useRouter()
 	const handleRefresh = () => {
 		console.log(`Refreshing data for Species ID: ${speciesId}`)
@@ -50,6 +43,14 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 			onButtonClick={handleRefresh}
 			buttonIconName={'refresh'}
 			buttonLabel={'Reload'}/>
+
+	const speciesImage = (
+		<SpeciesImage src={data?.default_image?.original_url ?? ''} alt={`${data?.common_name} thumbnail`}/>
+	)
+
+	const speciesExtraDetails = (
+		<SpeciesExtraDetails onCareGuideClick={handleOpenDialog} species={data}/>
+	)
 
 	return (
 		<>
@@ -72,8 +73,10 @@ const SpeciesDetails = ({speciesId}: Readonly<SpeciesDetailsProps>) => {
 
 					{/* All: Species names (Common and Scientific) */}
 					<div>
-						<h2>{data?.common_name}</h2>
-						<h3 className={'text-textSecondary'}>{data?.scientific_name}</h3>
+						<h2>{capitalize(data?.common_name)}</h2>
+						<h3 className={'text-textSecondary'}>
+							{capitalize(data?.scientific_name[0])}
+						</h3>
 					</div>
 
 					{/* All: Species Description */}
@@ -128,26 +131,26 @@ const SpeciesImage = ({src, alt}: Readonly<{ src: string, alt: string }>) => {
 	)
 }
 
-const SpeciesExtraDetails = ({onCareGuideClick}: {onCareGuideClick: () => void}) => {
+const SpeciesExtraDetails = ({onCareGuideClick, species}: {
+	onCareGuideClick: () => void,
+	species?: SpeciesDetailsResponse
+}) => {
 	const gridButtons: { [label: string]: string } = {
-		Watering: 'water_drop',
-		Sunlight: 'sunny',
-		Pruning: 'content_cut',
-		Cycle: 'cycle'
+		water_drop: species?.watering ?? 'None',
+		sunny: species?.sunlight[0] ?? 'None',
+		cycle: species?.cycle ?? 'None'
 	}
 
 	return (
 		<div className={'flex flex-col gap-3'}>
-			<div id={'info-grid'} className={'grid grid-cols-2 gap-3'}>
 				{
 					Object.keys(gridButtons).map((k) =>
 						<Button key={k}>
-							<MaterialIcon name={gridButtons[k]}/>
-							<p>{k}</p>
+							<MaterialIcon name={k}/>
+							<p>{capitalize(gridButtons[k])}</p>
 						</Button>
 					)
 				}
-			</div>
 
 			<Button className={'w-full justify-between'} onClick={onCareGuideClick}>
 				<div className={'flex flex-row gap-2'}>
