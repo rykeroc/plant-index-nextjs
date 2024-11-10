@@ -69,9 +69,9 @@ const SpeciesList = ({initialParams}: Readonly<{ initialParams: SpeciesListParam
 
 
 			<section className={'w-full'}>
-				<div className={"flex flex-row w-full space-x-3 mb-5"}>
+				<div className={"flex flex-row w-full space-x-3 justify-center mb-5"}>
 					{/* Search bar */}
-					<TextInput placeholder={"Search"} iconName={"search"} iconPlacement={"leading"} setValue={setQ}/>
+					<TextInput placeholder={"Search"} iconName={"search"} iconPlacement={"leading"} setValue={setQ} className={'max-w-full lg:max-w-3xl'}/>
 					{/* Filter button */}
 					<Button className={"block lg:hidden"} onClick={handleOnClick}>
 						<MaterialIcon name={"tune"}/>

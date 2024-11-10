@@ -8,10 +8,11 @@ type TextInputProps = {
 	placeholder: string,
 	iconName?: string,
 	iconPlacement?: IconPlacementType
-	setValue: (val: string) => void
+	setValue: (val: string) => void,
+	className?: string
 }
 
-const TextInput = ({placeholder, iconName, iconPlacement = "leading", setValue}: Readonly<TextInputProps>) => {
+const TextInput = ({placeholder, iconName, iconPlacement = "leading", setValue, className}: Readonly<TextInputProps>) => {
 	const [internalValue, setInternalValue] = useState('')
 	const handleInternalValueChange = (e: React.ChangeEvent<HTMLInputElement>) => setInternalValue(e.target.value)
 
@@ -37,7 +38,7 @@ const TextInput = ({placeholder, iconName, iconPlacement = "leading", setValue}:
 
 	return (
 		<div className={'w-full p-3 rounded-lg bg-container ' +
-			'flex flex-row space-x-3 '}
+			`flex flex-row space-x-3 ${className}`}
 			 onMouseEnter={handleOnContainerHover} onMouseLeave={handleOnContainerLeave}>
 			{/* Leading icon */}
 			{
