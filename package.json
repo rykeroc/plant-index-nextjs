@@ -13,7 +13,7 @@
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "framer-motion": "^11.11.10",
-    "next": "14.2.13",
+    "next": "14.2.15",
     "react": "^18",
     "react-dom": "^18"
   },
@@ -36,5 +36,6 @@
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
 }
